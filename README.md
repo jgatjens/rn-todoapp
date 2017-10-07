@@ -5,4 +5,4 @@ yarn install
 yarn start
 ```
 
-![img_3324](https://user-images.githubusercontent.com/1598461/31305788-e0543c42-aafe-11e7-9542-5ef0c769a4aa.PNG)
+![img_3324](https://user-images.githubusercontent.com/1598461/31305808-56082304-aaff-11e7-8a3f-5c124918bbb7.png)
