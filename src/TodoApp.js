@@ -23,8 +23,7 @@ export default class TodoApp extends Component {
         { text: 'Learn CSS and HTML ' }, 
         { text: 'Learn to Google' }, 
         { text: 'Learn Javascript Fundamentals' }, 
-        { text: 'Learn React' }, 
-        { text: 'Do some React Native example' }
+        { text: 'Learn React' }
       ],
       textInput: ''
     }
@@ -60,12 +59,12 @@ export default class TodoApp extends Component {
       // rewind sound
       dingSound.setPositionAsync(0);
       // add new todo
-      const todos = [...this.state.todos, { text }];
+      const todos = [{ text }, ...this.state.todos];
       // clear text Input
       this.setState({ todos, textInput: '' });
       // hide Keyboard
     }
-    
+
     Keyboard.dismiss();
   }
 
@@ -73,7 +72,7 @@ export default class TodoApp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>TodoApp</Text>
-        <Text style={styles.subtitle}>Add and Remove Todos</Text>
+        <Text style={styles.subtitle}>Add or Remove Todos</Text>
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -100,9 +99,6 @@ export default class TodoApp extends Component {
             </TouchableOpacity>
           ))}
         </ScrollView>
-
-        {/* <View style={styles.shadow}></View> */}
-
       </View>
     );
   }
