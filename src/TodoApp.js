@@ -4,36 +4,69 @@ import {
   ScrollView, TouchableHighlight, 
   TouchableOpacity 
 } from 'react-native';
-import Sound from 'react-native-sound';
+import { Audio } from 'expo';
 import styles from './styles'; 
 import TodoItem from './TodoItem';
+
+const dingSound = new Expo.Audio.Sound();
+
+dingSound.loadAsync(require('./ding.mp3'))
+  .then(() => console.log('Sound loaded'))
+  .catch(() => Alert.alert('Error loading sound'))
 
 export default class TodoApp extends Component {
   constructor() {
     super();
     
     this.state = {
-      todos: [],
+      todos: [ 
+        { text: 'Learn CSS and HTML ' }, 
+        { text: 'Learn to Google' }, 
+        { text: 'Learn Javascript Fundamentals' }, 
+        { text: 'Learn React' }, 
+        { text: 'Do some React Native example' }
+      ],
       textInput: ''
     }
   }
 
-  removeTodo() {
-    Alert.alert('remove todo');
+  promptHandler(index) {
+    const todoText = this.state.todos[index].text;
+    Alert.alert(
+      todoText,
+      "Do you want to remove it?",
+      [
+        {text: "Cancel"},
+        { text: "OK", onPress: this.removeTodo.bind(this, index) }
+      ],
+      { cancelable: false }
+    );
   }
 
-  addTodo(e) {
+  removeTodo(index) {
+    const todos = [
+      ...this.state.todos.slice(0, index), 
+      ...this.state.todos.slice(index + 1)
+    ];
+    this.setState({ todos });
+  }
+
+  addTodoHandler(e) {
     const text = this.state.textInput;
 
-    const audio = require('./ding.mp3');
-
-    audio.play
-
     if (text.length > 0) {
+      // playing sound
+      dingSound.playAsync();
+      // rewind sound
+      dingSound.setPositionAsync(0);
+      // add new todo
       const todos = [...this.state.todos, { text }];
+      // clear text Input
       this.setState({ todos, textInput: '' });
-      Keyboard.dismiss();
+      // hide Keyboard
     }
+    
+    Keyboard.dismiss();
   }
 
   render() {
@@ -45,21 +78,25 @@ export default class TodoApp extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             onChangeText={(textInput) => this.setState({ textInput })}
-            onSubmitEditing={this.addTodo.bind(this)}
+            onSubmitEditing={this.addTodoHandler.bind(this)}
             style={styles.input} 
             value={this.state.textInput} 
             placeholder="New todo item" />
 
           <TouchableOpacity 
             style={styles.button} 
-            onPress={this.addTodo.bind(this)}>
+            onPress={this.addTodoHandler.bind(this)}>
             <Text style={styles.buttonText}> Add </Text>
           </TouchableOpacity>
         </View>
+
         <ScrollView style={styles.TodoList}>
-          {this.state.todos.map((todo, i) => (
-            <TouchableOpacity key={i} style={{ width: '100%' }} onPress={this.removeTodo.bind(this)}>
-              <TodoItem text={todo.text} />
+          {this.state.todos.map((todo, index) => (
+            <TouchableOpacity 
+              key={index} 
+              style={{ width: '100%' }} 
+              onPress={this.promptHandler.bind(this, index)}>
+                <TodoItem text={todo.text} />
             </TouchableOpacity>
           ))}
         </ScrollView>

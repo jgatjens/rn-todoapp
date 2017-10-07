@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 70,
+    paddingTop: 40,
     alignItems: 'center'
   },
   title: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   	width: '29%'
   },
   inputContainer: {
-  	marginTop: 40,
+  	marginTop: 30,
   	flex: -1,
   	width: '95%',
     alignItems: 'flex-start',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   TodoList: {
-  	marginTop: 40,
+  	marginTop: 30,
   	flex: 1,
   	width: '94%'
   },
